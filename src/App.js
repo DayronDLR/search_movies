@@ -1,38 +1,19 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import 'bulma/css/bulma.css';
 import './App.css';
 
-import { Title } from './components/Title';
-import { SearchForm } from './components/SearchForm';
-import { MoviesList } from './components/MoviesList';
+import { Home } from './pages/Home';
+import { DetailMovie } from './pages/DetailMovie';
 
 class App extends Component {
-  state = { usedSearch: false, movies: [], totalResults: 0 }
-
-  _handleResults = (movies, totalResults) => {
-    this.setState({ movies, usedSearch: true, totalResults })
-  }
-
-  _renderResults = () => {
-    if (this.state.totalResults > 0) {
-      return <MoviesList movies={this.state.movies} totalResults={this.state.totalResults}/>
-    }
-
-    return <p>Sin resultados</p>
-  }
-
   render() {
     return (
       <div className="App">
-        <Title>Search movies</Title>
-        <div className="SearchForm">
-          <SearchForm onResults={this._handleResults}></SearchForm>
-          </div>
-        {
-          this.state.usedSearch ?
-          this._renderResults() :
-          <small>Search a movie</small>
-        }
+        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/detail/:id" component={DetailMovie}/>
+        </Switch>
       </div>
     );
   }
