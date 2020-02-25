@@ -1,35 +1,37 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import 'bulma/css/bulma.css';
 import './App.css';
 
-import {Title} from './components/Title';
-import {SearchForm} from './components/SearchForm';
+import { Title } from './components/Title';
+import { SearchForm } from './components/SearchForm';
+import { MoviesList } from './components/MoviesList';
 
 class App extends Component {
-  state = {movies: []}
-  
-  _handleResults = (movies) => {
-    this.setState({movies})
+  state = { usedSearch: false, movies: [], totalResults: 0 }
+
+  _handleResults = (movies, totalResults) => {
+    this.setState({ movies, usedSearch: true, totalResults })
   }
 
-  _renderMovies = () => {
-    let {movies} = this.state
-    return movies.map(movie => {
-      return <p key={movie.imdbID}>{movie.Title}</p>
-    })
+  _renderResults = () => {
+    if (this.state.totalResults > 0) {
+      return <MoviesList movies={this.state.movies} totalResults={this.state.totalResults}/>
+    }
+
+    return <p>Sin resultados</p>
   }
 
-  render () {
+  render() {
     return (
       <div className="App">
         <Title>Search movies</Title>
         <div className="SearchForm">
           <SearchForm onResults={this._handleResults}></SearchForm>
-        </div>
+          </div>
         {
-          this.state.movies.length === 0 ? 
-          <p>Sin resultados</p> :
-          this._renderMovies()
+          this.state.usedSearch ?
+          this._renderResults() :
+          <small>Search a movie</small>
         }
       </div>
     );
