@@ -5,6 +5,7 @@ import './App.css';
 
 import { Home } from './pages/Home';
 import { DetailMovie } from './pages/DetailMovie';
+import { NotFound } from './pages/NotFound';
 
 class App extends Component {
   render() {
@@ -12,7 +13,8 @@ class App extends Component {
       <div className="App">
         <Switch>
           <Route exact path="/" component={Home}/>
-          <Route exact path="/detail/:id" component={DetailMovie}/>
+          <Route path="/detail/:id" component={DetailMovie}/>
+          <Route component={NotFound}/>
         </Switch>
       </div>
     );
